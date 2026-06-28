@@ -3,7 +3,7 @@
 A full-stack, AI-powered cryptocurrency dashboard that provides real-time prices, news, and LLM-generated investing insights tailored to user preferences.
 
 ## 🚀 Live Demo
-- **Frontend (Vercel):** [https://ai-crypto-advisor.vercel.app](https://ai-crypto-advisor.vercel.app)
+- **Frontend (Vercel):** [https://ai-crypto-advisor-dun.vercel.app](https://ai-crypto-advisor-dun.vercel.app)
 - **Backend API (Render):** [https://ai-crypto-advisor-backend-0314.onrender.com/health](https://ai-crypto-advisor-backend-0314.onrender.com/health)
 
 ## 🛠️ Technology Stack
