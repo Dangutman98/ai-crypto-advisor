@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              Int        @id @default(autoincrement())
+  email           String     @unique
+  name            String
+  password        String
+  
+  // Onboarding preferences (stored as comma-separated or simple strings)
+  assets          String?    
+  investorType    String?    
+  contentPrefs    String?    
+  
+  feedbacks       Feedback[]
+  createdAt       DateTime   @default(now())
+}
+
+model Feedback {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  contentId   String   
+  contentType String   
+  voteType    String   // "up" or "down"
+  createdAt   DateTime @default(now())
+}
