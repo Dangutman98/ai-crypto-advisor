@@ -1,6 +1,13 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+let API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+// Robust check: If they provided a URL but forgot the /api at the end, add it automatically
+if (API_URL && !API_URL.endsWith('/api')) {
+  // Remove trailing slash if exists before adding /api
+  API_URL = API_URL.replace(/\/+$/, '') + '/api';
+}
+
 console.log('🚀 [API INIT] VITE_API_URL is:', import.meta.env.VITE_API_URL);
 console.log('🚀 [API INIT] Base URL set to:', API_URL);
 
