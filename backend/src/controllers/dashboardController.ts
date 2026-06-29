@@ -26,7 +26,8 @@ export const getDashboardData = async (req: any, res: Response) => {
       prices,
       news,
       insight,
-      meme
+      meme,
+      pinnedCoins: user.pinnedCoins || ''
     });
   } catch (error) {
     console.error('Dashboard error:', error);

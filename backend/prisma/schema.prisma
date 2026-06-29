@@ -19,7 +19,8 @@ model User {
   // Onboarding preferences (stored as comma-separated or simple strings)
   assets          String?    
   investorType    String?    
-  contentPrefs    String?    
+  contentPrefs    String?
+  pinnedCoins     String?    
   
   feedbacks       Feedback[]
   createdAt       DateTime   @default(now())

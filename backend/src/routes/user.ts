@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { updatePreferences } from '../controllers/userController';
+import { updatePreferences, updatePinnedCoins } from '../controllers/userController';
 import { authenticateToken } from '../middleware/authMiddleware';
 
 const router = Router();
@@ -8,5 +8,6 @@ const router = Router();
 router.use(authenticateToken);
 
 router.put('/preferences', updatePreferences);
+router.put('/pinned', updatePinnedCoins);
 
 export default router;

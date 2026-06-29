@@ -41,6 +41,9 @@ const Dashboard = () => {
       try {
         const response = await api.get('/dashboard');
         setData(response.data);
+        if (response.data.pinnedCoins) {
+          setPinnedCoins(response.data.pinnedCoins.split(',').filter(Boolean));
+        }
       } catch (error) {
         console.error('Failed to fetch dashboard data', error);
       } finally {
@@ -73,10 +76,13 @@ const Dashboard = () => {
     }
   };
 
-  const togglePin = (coinId: string) => {
-    setPinnedCoins(prev => 
-      prev.includes(coinId) ? prev.filter(id => id !== coinId) : [...prev, coinId]
-    );
+  const togglePin = async (coinId: string) => {
+    setPinnedCoins(prev => {
+      const newPins = prev.includes(coinId) ? prev.filter(id => id !== coinId) : [...prev, coinId];
+      // Save to DB in background
+      api.put('/user/pinned', { pinnedCoins: newPins.join(',') }).catch(console.error);
+      return newPins;
+    });
   };
 
   const handleLogout = () => {

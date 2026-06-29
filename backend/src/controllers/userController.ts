@@ -21,3 +21,22 @@ export const updatePreferences = async (req: any, res: Response) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+export const updatePinnedCoins = async (req: any, res: Response) => {
+  try {
+    const userId = req.user.userId;
+    const { pinnedCoins } = req.body;
+
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        pinnedCoins: pinnedCoins || null,
+      },
+    });
+
+    res.json({ message: 'Pinned coins updated successfully', user });
+  } catch (error) {
+    console.error('Update pinned coins error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
