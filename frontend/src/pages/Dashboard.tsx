@@ -1,22 +1,34 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
-import { ThumbsUp, ThumbsDown, TrendingUp, TrendingDown, Newspaper, Lightbulb, Image as ImageIcon, LogOut } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, TrendingUp, TrendingDown, Newspaper, Lightbulb, Image as ImageIcon, LogOut, Star } from 'lucide-react';
 
 const Dashboard = () => {
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [votes, setVotes] = useState<Record<string, 'UP' | 'DOWN'>>({});
   const [searchQuery, setSearchQuery] = useState('');
+  const [pinnedCoins, setPinnedCoins] = useState<string[]>([]);
   const navigate = useNavigate();
 
   // Filter prices based on search query
-  const filteredPrices = Array.isArray(data?.prices) 
+  let filteredPrices = Array.isArray(data?.prices) 
     ? data.prices.filter((coin: any) => 
         coin.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
         coin.symbol.toLowerCase().includes(searchQuery.toLowerCase())
       ) 
     : [];
+
+  // Sort pinned coins to the top
+  if (filteredPrices.length > 0) {
+    filteredPrices = filteredPrices.sort((a: any, b: any) => {
+      const aPinned = pinnedCoins.includes(a.id);
+      const bPinned = pinnedCoins.includes(b.id);
+      if (aPinned && !bPinned) return -1;
+      if (!aPinned && bPinned) return 1;
+      return 0;
+    });
+  }
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -59,6 +71,12 @@ const Dashboard = () => {
     } catch (error) {
       console.error('Failed to submit feedback', error);
     }
+  };
+
+  const togglePin = (coinId: string) => {
+    setPinnedCoins(prev => 
+      prev.includes(coinId) ? prev.filter(id => id !== coinId) : [...prev, coinId]
+    );
   };
 
   const handleLogout = () => {
@@ -159,6 +177,22 @@ const Dashboard = () => {
             {filteredPrices.map((coin: any) => (
               <div key={coin.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: 'var(--bg-color)', borderRadius: '8px', border: '1px solid var(--panel-border)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <button 
+                    onClick={() => togglePin(coin.id)}
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      padding: 0,
+                      color: pinnedCoins.includes(coin.id) ? '#fbbf24' : 'var(--text-muted)'
+                    }}
+                    title={pinnedCoins.includes(coin.id) ? 'Unpin' : 'Pin to top'}
+                  >
+                    <Star size={18} fill={pinnedCoins.includes(coin.id) ? '#fbbf24' : 'none'} />
+                  </button>
                   {coin.image && <img src={coin.image} alt={coin.name} style={{ width: '28px', height: '28px', borderRadius: '50%' }} />}
                   <div>
                     <div style={{ fontSize: '1.1rem', fontWeight: 600 }}>{coin.name}</div>
