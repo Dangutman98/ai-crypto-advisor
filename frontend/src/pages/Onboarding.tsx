@@ -105,31 +105,55 @@ const Onboarding = () => {
             {selectedCoins.length === 0 && <p style={{ color: 'var(--danger)', fontSize: '0.8rem', marginTop: '8px' }}>Please select at least one asset.</p>}
           </div>
 
-          <div className="input-group" style={{ position: 'relative' }}>
+          <div className="input-group" style={{ position: 'relative', marginBottom: '32px' }}>
             <label>2. What type of investor are you?</label>
             <div 
               className="input-field"
               onClick={() => setIsSelectOpen(!isSelectOpen)}
-              style={{ cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+              style={{ 
+                cursor: 'pointer', 
+                display: 'flex', 
+                justifyContent: 'space-between', 
+                alignItems: 'center',
+                background: isSelectOpen ? '#161618' : '#09090b',
+                border: `1px solid ${isSelectOpen ? '#ffffff' : 'var(--panel-border)'}`,
+                boxShadow: isSelectOpen ? '0 0 10px rgba(255,255,255,0.1)' : 'none',
+                transition: 'all 0.3s ease'
+              }}
             >
-              <span>{investorOptions.find(o => o.value === investorType)?.label}</span>
-              <span style={{ transform: isSelectOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>▼</span>
+              <span style={{ fontWeight: 500 }}>{investorOptions.find(o => o.value === investorType)?.label}</span>
+              <span style={{ 
+                transform: isSelectOpen ? 'rotate(180deg)' : 'none', 
+                transition: 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                background: '#ffffff',
+                color: '#000000',
+                borderRadius: '50%',
+                width: '24px',
+                height: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '12px'
+              }}>▼</span>
             </div>
             {isSelectOpen && (
-              <div style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                right: 0,
-                background: '#09090b',
-                border: '1px solid var(--panel-border)',
-                borderRadius: '8px',
-                marginTop: '4px',
-                zIndex: 10,
-                overflow: 'hidden',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.8)'
-              }}>
-                {investorOptions.map(option => (
+              <div 
+                className="animate-fade-in"
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: 0,
+                  right: 0,
+                  background: '#09090b',
+                  border: '1px solid var(--panel-border)',
+                  borderRadius: '12px',
+                  marginTop: '8px',
+                  zIndex: 20,
+                  overflow: 'hidden',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                }}
+              >
+                {investorOptions.map((option, index) => (
                   <div
                     key={option.value}
                     onClick={() => {
@@ -137,14 +161,16 @@ const Onboarding = () => {
                       setIsSelectOpen(false);
                     }}
                     style={{
-                      padding: '12px 16px',
+                      padding: '16px 20px',
                       cursor: 'pointer',
-                      background: investorType === option.value ? 'rgba(255,255,255,0.1)' : 'transparent',
+                      background: investorType === option.value ? 'rgba(255,255,255,0.08)' : 'transparent',
                       color: investorType === option.value ? '#ffffff' : 'var(--text-muted)',
-                      transition: 'background 0.2s'
+                      borderBottom: index < investorOptions.length - 1 ? '1px solid var(--panel-border)' : 'none',
+                      transition: 'all 0.2s ease',
+                      fontWeight: investorType === option.value ? 500 : 400
                     }}
-                    onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
-                    onMouseOut={(e) => e.currentTarget.style.background = investorType === option.value ? 'rgba(255,255,255,0.1)' : 'transparent'}
+                    onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.12)'}
+                    onMouseOut={(e) => e.currentTarget.style.background = investorType === option.value ? 'rgba(255,255,255,0.08)' : 'transparent'}
                   >
                     {option.label}
                   </div>

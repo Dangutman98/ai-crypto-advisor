@@ -175,8 +175,15 @@ const Dashboard = () => {
               </div>
             ))}
             {filteredPrices.length === 0 && (
-              <div style={{ textAlign: 'center', color: 'var(--text-muted)', marginTop: '20px' }}>
-                No coins found matching "{searchQuery}"
+              <div style={{ textAlign: 'center', color: 'var(--text-muted)', marginTop: '40px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {searchQuery ? (
+                  <span>No coins found matching "{searchQuery}"</span>
+                ) : (
+                  <>
+                    <span style={{ color: 'var(--danger)', fontWeight: 500 }}>Failed to connect to backend</span>
+                    <span style={{ fontSize: '0.9rem' }}>Please verify your API URL is correct and the server is running.</span>
+                  </>
+                )}
               </div>
             )}
           </div>
