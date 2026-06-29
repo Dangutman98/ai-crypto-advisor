@@ -1,14 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
-  --bg-color: #0b0d12;
-  --panel-bg: rgba(25, 28, 36, 0.6);
+  --bg-color: #000000;
+  --panel-bg: #09090b;
+  --panel-border: rgba(255, 255, 255, 0.08);
   --text-main: #ffffff;
-  --text-muted: #9ca3af;
-  --accent: #6366f1;
-  --accent-hover: #4f46e5;
-  --accent-gradient: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+  --text-muted: #a1a1aa;
+  --accent: #ffffff;
+  --accent-hover: #e4e4e7;
+  --accent-gradient: linear-gradient(135deg, #ffffff, #a1a1aa);
   --danger: #ef4444;
+  --success: #10b981;
 }
 
 * {
@@ -32,33 +35,52 @@ body {
   flex-direction: column;
 }
 
-/* Glassmorphism utility */
-.glass-panel {
-  background: var(--panel-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+.numeric {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.05em;
 }
 
-/* Typography */
+/* Custom Scrollbar for Fey aesthetic */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.glass-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.2s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
 h1, h2, h3 {
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.02em;
 }
 
 .text-gradient {
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--text-main);
 }
 
-/* Base button */
 .btn-primary {
-  background: var(--accent-gradient);
-  color: white;
+  background: #ffffff;
+  color: #000000;
   border: none;
   padding: 12px 24px;
   border-radius: 8px;
@@ -66,7 +88,7 @@ h1, h2, h3 {
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -74,17 +96,16 @@ h1, h2, h3 {
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 .btn-primary:disabled {
-  opacity: 0.7;
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
-/* Inputs */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -101,40 +122,36 @@ h1, h2, h3 {
 .input-field {
   width: 100%;
   padding: 14px 16px;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #09090b;
+  border: 1px solid var(--panel-border);
   border-radius: 8px;
   color: white;
   font-family: 'Outfit', sans-serif;
   font-size: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .input-field:focus {
   outline: none;
-  border-color: var(--accent);
-  background: rgba(0, 0, 0, 0.4);
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .input-field::placeholder {
   color: var(--text-muted);
 }
 
-/* Links */
 a {
-  color: var(--accent);
+  color: var(--text-muted);
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: #818cf8;
+  color: var(--text-main);
 }
 
-/* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
 }
 

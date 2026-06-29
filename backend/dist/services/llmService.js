@@ -10,7 +10,18 @@ const getDailyInsight = async (investorType) => {
         const apiKey = process.env.OPENROUTER_API_KEY;
         if (!apiKey) {
             // Fallback if no LLM key
-            return `As a ${investorType}, remember that market volatility is a feature, not a bug. Stay focused on your long-term strategy and don't let short-term noise shake you out of good positions.`;
+            const fallbacks = [
+                `As a ${investorType}, remember that market volatility is a feature, not a bug. Stay focused on your long-term strategy.`,
+                `Patience is key for a ${investorType}. Look at the macro trends instead of getting caught up in the daily noise.`,
+                `A smart ${investorType} knows when to zoom out. Historical cycles suggest we are exactly where we need to be.`,
+                `Don't let emotions drive your decisions. As a ${investorType}, sticking to your original thesis is crucial right now.`,
+                `The best opportunities often arise when fear is highest. Stay rational, ${investorType}.`,
+                `Remember to secure your profits when possible. Even a ${investorType} needs a solid exit strategy.`,
+                `Diversification isn't just a buzzword. Make sure your ${investorType} portfolio is balanced across multiple sectors.`
+            ];
+            // Pick a different insight each day of the month
+            const dayOfMonth = new Date().getDate();
+            return fallbacks[dayOfMonth % fallbacks.length];
         }
         const response = await axios_1.default.post('https://openrouter.ai/api/v1/chat/completions', {
             model: 'mistralai/mistral-7b-instruct:free',
