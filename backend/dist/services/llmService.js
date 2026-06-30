@@ -7,11 +7,12 @@ exports.getDailyInsight = void 0;
 const axios_1 = __importDefault(require("axios"));
 // In-memory cache to ensure the insight stays the same for 24 hours per investor type
 const insightsCache = {};
-const getDailyInsight = async (investorType) => {
+const getDailyInsight = async (investorType, contentPrefs = 'general') => {
     const today = new Date().toDateString(); // e.g., "Mon Jun 29 2026"
-    // Check if we already have an insight generated for this investor type today
-    if (insightsCache[investorType] && insightsCache[investorType].date === today) {
-        return insightsCache[investorType].insight;
+    const cacheKey = `${investorType}-${contentPrefs}`;
+    // Check if we already have an insight generated for this combination today
+    if (insightsCache[cacheKey] && insightsCache[cacheKey].date === today) {
+        return insightsCache[cacheKey].insight;
     }
     try {
         const apiKey = process.env.OPENROUTER_API_KEY;
@@ -19,7 +20,7 @@ const getDailyInsight = async (investorType) => {
         if (!apiKey) {
             // Fallback if no LLM key
             const fallbacks = [
-                `As a ${investorType}, remember that market volatility is a feature, not a bug. Stay focused on your long-term strategy.`,
+                `As a ${investorType} looking for ${contentPrefs}, remember that market volatility is a feature, not a bug. Stay focused on your long-term strategy.`,
                 `Patience is key for a ${investorType}. Look at the macro trends instead of getting caught up in the daily noise.`,
                 `A smart ${investorType} knows when to zoom out. Historical cycles suggest we are exactly where we need to be.`,
                 `Don't let emotions drive your decisions. As a ${investorType}, sticking to your original thesis is crucial right now.`,
@@ -35,7 +36,7 @@ const getDailyInsight = async (investorType) => {
             // Use OpenRouter FREE model as requested!
             const response = await axios_1.default.post('https://openrouter.ai/api/v1/chat/completions', {
                 model: 'mistralai/mistral-7b-instruct:free',
-                messages: [{ role: 'user', content: `Give me a 2-sentence crypto investing insight for a ${investorType}. Make it sound professional.` }],
+                messages: [{ role: 'user', content: `Give me a 2-sentence crypto investing insight for a ${investorType} who prefers content about ${contentPrefs}. Make it sound professional.` }],
             }, {
                 headers: {
                     Authorization: `Bearer ${apiKey}`,
@@ -45,7 +46,7 @@ const getDailyInsight = async (investorType) => {
             generatedInsight = response.data.choices[0].message.content;
         }
         // Save to cache
-        insightsCache[investorType] = { date: today, insight: generatedInsight };
+        insightsCache[cacheKey] = { date: today, insight: generatedInsight };
         return generatedInsight;
     }
     catch (error) {

@@ -14,17 +14,20 @@ const getDashboardData = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
         // Fetch all external APIs concurrently based on user preferences
-        const [prices, news, insight, meme] = await Promise.all([
+        const [prices, news, insight, meme, feedbacks] = await Promise.all([
             (0, coinGeckoService_1.getCoinPrices)(user.assets || 'bitcoin,ethereum'),
             (0, cryptoPanicService_1.getMarketNews)(),
-            (0, llmService_1.getDailyInsight)(user.investorType || 'HODLer'),
-            (0, redditService_1.getMeme)()
+            (0, llmService_1.getDailyInsight)(user.investorType || 'HODLer', user.contentPrefs || 'general'),
+            (0, redditService_1.getMeme)(),
+            db_1.prisma.feedback.findMany({ where: { userId } })
         ]);
         res.json({
             prices,
             news,
             insight,
-            meme
+            meme,
+            pinnedCoins: user.pinnedCoins || '',
+            feedbacks
         });
     }
     catch (error) {

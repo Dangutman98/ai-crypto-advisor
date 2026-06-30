@@ -9,14 +9,21 @@ const submitFeedback = async (req, res) => {
         if (!contentId || !contentType || !voteType) {
             return res.status(400).json({ error: 'Missing required fields (contentId, contentType, voteType)' });
         }
-        const feedback = await db_1.prisma.feedback.create({
-            data: {
-                userId,
-                contentId,
-                contentType,
-                voteType
-            }
+        const existingFeedback = await db_1.prisma.feedback.findFirst({
+            where: { userId, contentId, contentType }
         });
+        let feedback;
+        if (existingFeedback) {
+            feedback = await db_1.prisma.feedback.update({
+                where: { id: existingFeedback.id },
+                data: { voteType }
+            });
+        }
+        else {
+            feedback = await db_1.prisma.feedback.create({
+                data: { userId, contentId, contentType, voteType }
+            });
+        }
         res.status(201).json({ message: 'Feedback saved successfully', feedback });
     }
     catch (error) {
