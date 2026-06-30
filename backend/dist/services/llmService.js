@@ -7,9 +7,9 @@ exports.getDailyInsight = void 0;
 const axios_1 = __importDefault(require("axios"));
 // In-memory cache to ensure the insight stays the same for 24 hours per investor type
 const insightsCache = {};
-const getDailyInsight = async (investorType, contentPrefs = 'general') => {
+const getDailyInsight = async (investorType, contentPrefs = 'general', favoriteCoins = '') => {
     const today = new Date().toDateString(); // e.g., "Mon Jun 29 2026"
-    const cacheKey = `${investorType}-${contentPrefs}`;
+    const cacheKey = `${investorType}-${contentPrefs}-${favoriteCoins}`;
     // Check if we already have an insight generated for this combination today
     if (insightsCache[cacheKey] && insightsCache[cacheKey].date === today) {
         return insightsCache[cacheKey].insight;
@@ -36,7 +36,7 @@ const getDailyInsight = async (investorType, contentPrefs = 'general') => {
             // Use OpenRouter FREE model as requested!
             const response = await axios_1.default.post('https://openrouter.ai/api/v1/chat/completions', {
                 model: 'mistralai/mistral-7b-instruct:free',
-                messages: [{ role: 'user', content: `Give me a 2-sentence crypto investing insight for a ${investorType} who prefers content about ${contentPrefs}. Make it sound professional.` }],
+                messages: [{ role: 'user', content: `Give me a 2-sentence crypto investing insight for a ${investorType} who prefers content about ${contentPrefs}. The user is specifically invested in: ${favoriteCoins}. Tie the insight to these assets if possible, and make it sound professional.` }],
             }, {
                 headers: {
                     Authorization: `Bearer ${apiKey}`,

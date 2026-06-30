@@ -17,7 +17,7 @@ const getDashboardData = async (req, res) => {
         const [prices, news, insight, meme, feedbacks] = await Promise.all([
             (0, coinGeckoService_1.getCoinPrices)(user.assets || 'bitcoin,ethereum'),
             (0, cryptoPanicService_1.getMarketNews)(),
-            (0, llmService_1.getDailyInsight)(user.investorType || 'HODLer', user.contentPrefs || 'general'),
+            (0, llmService_1.getDailyInsight)(user.investorType || 'HODLer', user.contentPrefs || 'general', user.pinnedCoins || user.assets || 'crypto'),
             (0, redditService_1.getMeme)(),
             db_1.prisma.feedback.findMany({ where: { userId } })
         ]);

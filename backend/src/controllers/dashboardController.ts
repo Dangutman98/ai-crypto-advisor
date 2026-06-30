@@ -18,7 +18,7 @@ export const getDashboardData = async (req: any, res: Response) => {
     const [prices, news, insight, meme, feedbacks] = await Promise.all([
       getCoinPrices(user.assets || 'bitcoin,ethereum'),
       getMarketNews(),
-      getDailyInsight(user.investorType || 'HODLer', user.contentPrefs || 'general'),
+      getDailyInsight(user.investorType || 'HODLer', user.contentPrefs || 'general', user.pinnedCoins || user.assets || 'crypto'),
       getMeme(),
       prisma.feedback.findMany({ where: { userId } })
     ]);
