@@ -62,7 +62,7 @@ If you prefer not to use an external DB client, you can use the built-in Prisma 
 4. Run `npx prisma studio` to open a visual database editor in your browser.
 
 ## 🤖 AI Collaboration Summary
-During this assignment, I used an AI coding assistant to help speed up my work. I treated the AI like a coding partner—I was the one making the decisions about the research, architecture, and product logic, while the AI helped me execute the vision and write the code faster.
+During this assignment, I used an AI coding assistant to help speed up my work. I treated the AI like a coding partner-I was the one making the decisions about the research, architecture, and product logic, while the AI helped me execute the vision and write the code faster.
 
 Here is a quick breakdown of how we worked together:
 
@@ -70,8 +70,8 @@ Here is a quick breakdown of how we worked together:
 *   **Project Planning & Architecture:** After the research phase, I asked the AI to help me break down the entire assignment into a step-by-step guide. I divided the project into manageable phases (Frontend UI, Backend APIs, Database, and Integrations). I also made sure to guide the AI to separate the backend code neatly into Routes, Controllers, and Services so the project wouldn't become messy.
 *   **Testing & Quality Assurance:** Before jumping into the main codebase, I created a dedicated `tests` folder to plan out tests for both the frontend and backend. I wanted to ensure we had a strategy to evaluate edge cases and verify the code's stability from all angles. Additionally, in the early stages, I manually tested the Database operations and API endpoints using Postman to ensure the foundation was solid before connecting the UI.
 *   **Design & UI:** I wanted a modern "Glassmorphism" look for the app. Instead of using a big CSS framework, I asked the AI to help me write clean, custom CSS. I tweaked its suggestions to make sure the colors, shadows, and overall feel looked premium.
-*   **API & Core Logic:** The AI was great at writing the basic fetch requests to connect to external APIs. However, I designed the actual logic. For example, I noticed the initial AI prompt only used the user's "Investor Type". I actively changed the backend code so it also uses the user's "Content Preferences" to generate much smarter and more personalized daily insights.
-*   **Debugging:** When I ran into bugs, I used the AI to bounce ideas off. For example, when deploying to Vercel, I got a 404 routing error. I figured out it was a React Router SPA issue, and asked the AI to help me generate the correct `vercel.json` configuration file to fix it.
+*   **API & Core Logic:** The AI was great at writing the basic fetch requests to connect to external APIs. However, I designed the actual logic. For example, I noticed the initial AI prompt only used the user's "Investor Type". I actively changed the backend code, so it also uses the user's "Content Preferences" to generate much smarter and more personalized daily insights.
+*   **Debugging:** When I ran into bugs, I used the AI to bounce ideas off. For example, when deploying to Vercel, I got a 404 routing error. I figured out it was a React Router SPA issue and asked the AI to help me generate the correct `vercel.json` configuration file to fix it.
 
 **Conclusion:** 
 Using AI was incredibly helpful for writing repetitive code quickly. This saved me a lot of time and allowed me to really focus on the big picture—researching the company, planning the project phases, setting up a solid testing strategy, designing the architecture, and debugging edge cases. I reviewed and tested everything the AI generated to make sure it met the assignment's exact requirements.
